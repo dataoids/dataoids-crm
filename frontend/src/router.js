@@ -79,6 +79,18 @@ const routes = [
     props: true,
   },
   {
+    alias: '/sales-campaigns',
+    path: '/sales-campaigns/view/:viewType?',
+    name: 'SalesCampaigns',
+    component: () => import('@/pages/SalesCampaigns.vue'),
+  },
+  {
+    path: '/sales-campaigns/:salesCampaignId',
+    name: 'SalesCampaign',
+    component: () => import(`@/pages/SalesCampaign.vue`),
+    props: true,
+  },
+  {
     alias: '/call-logs',
     path: '/call-logs/view/:viewType?',
     name: 'Call Logs',

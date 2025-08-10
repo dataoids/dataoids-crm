@@ -61,6 +61,7 @@ class CRMOrganization(Document):
 			"organization_logo",
 			"website",
 			"industry",
+			"sales_campaign",
 			"currency",
 			"annual_revenue",
 			"modified",

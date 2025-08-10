@@ -8,11 +8,13 @@
  "engine": "InnoDB",
  "field_order": [
   "sales_campaign",
+  "section_break_vkvv",
   "target_market",
-  "start_date",
-  "column_break_lkcp",
   "campaign_owner",
-  "target_territory",
+  "start_date",
+  "column_break_nktr",
+  "target_industry",
+  "campaign_status",
   "end_date"
  ],
  "fields": [
@@ -29,12 +31,6 @@
    "fieldname": "target_market",
    "fieldtype": "Link",
    "label": "Target Market",
-   "options": "CRM Industry"
-  },
-  {
-   "fieldname": "target_territory",
-   "fieldtype": "Link",
-   "label": "Target Territory",
    "options": "CRM Territory"
   },
   {
@@ -54,13 +50,29 @@
    "options": "User"
   },
   {
-   "fieldname": "column_break_lkcp",
+   "fieldname": "target_industry",
+   "fieldtype": "Link",
+   "label": "Target Industry",
+   "options": "CRM Industry"
+  },
+  {
+   "fieldname": "campaign_status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "New\nIn Progress\nCompleted"
+  },
+  {
+   "fieldname": "section_break_vkvv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_nktr",
    "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-10 10:53:42.487079",
+ "modified": "2025-08-10 17:06:41.319887",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Sales Campaign",
