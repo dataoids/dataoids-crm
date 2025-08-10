@@ -34,25 +34,33 @@ def add_default_lead_statuses():
 			"color": "gray",
 			"position": 1,
 		},
-		"Contacted": {
-			"color": "orange",
+		"Enriching": {
+			"color": "cyan",
 			"position": 2,
 		},
-		"Nurture": {
+		"Outreach in Progress": {
 			"color": "blue",
 			"position": 3,
 		},
-		"Qualified": {
+		"Replied": {
 			"color": "green",
 			"position": 4,
 		},
-		"Unqualified": {
-			"color": "red",
-			"position": 5,
+		"Not Replied": {
+			"color": "amber",
+			"position": 4,
 		},
-		"Junk": {
+		"Nurturing": {
 			"color": "purple",
 			"position": 6,
+		},
+		"Disqualified": {
+			"color": "red",
+			"position": 7,
+		},
+		"Converted": {
+			"color": "green",
+			"position": 8,
 		},
 	}
 
@@ -349,8 +357,10 @@ def add_default_lead_sources():
 		"Supplier Reference",
 		"Mass Mailing",
 		"Customer's Vendor",
-		"Campaign",
+		"Sales Campaign",
 		"Walk In",
+		"LinkedIn",
+		"Website",
 	]
 
 	for source in lead_sources:

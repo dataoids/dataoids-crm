@@ -22,10 +22,13 @@
   "salutation",
   "first_name",
   "last_name",
+  "column_break_jybc",
+  "linkedin_url",
   "email",
   "mobile_no",
   "organization_tab",
   "section_break_uixv",
+  "sales_campaign",
   "naming_series",
   "lead_name",
   "middle_name",
@@ -33,6 +36,7 @@
   "phone",
   "column_break_dbsv",
   "status",
+  "lead_score",
   "no_of_employees",
   "annual_revenue",
   "image",
@@ -325,13 +329,33 @@
    "label": "Net Total",
    "options": "currency",
    "read_only": 1
+  },
+  {
+   "fieldname": "linkedin_url",
+   "fieldtype": "Data",
+   "label": "LinkedIn URL"
+  },
+  {
+   "fieldname": "column_break_jybc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_campaign",
+   "fieldtype": "Link",
+   "label": "Sales Campaign",
+   "options": "CRM Sales Campaign"
+  },
+  {
+   "fieldname": "lead_score",
+   "fieldtype": "Percent",
+   "label": "Lead Score"
   }
  ],
  "grid_page_length": 50,
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-14 19:51:06.184569",
+ "modified": "2025-08-10 11:19:23.317450",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",

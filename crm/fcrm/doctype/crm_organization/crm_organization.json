@@ -8,12 +8,13 @@
  "engine": "InnoDB",
  "field_order": [
   "organization_name",
+  "sales_campaign",
   "no_of_employees",
   "currency",
   "exchange_rate",
-  "annual_revenue",
   "organization_logo",
   "column_break_pnpp",
+  "annual_revenue",
   "website",
   "territory",
   "industry",
@@ -23,7 +24,9 @@
   {
    "fieldname": "organization_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Organization Name",
+   "reqd": 1,
    "unique": 1
   },
   {
@@ -81,12 +84,18 @@
    "fieldname": "exchange_rate",
    "fieldtype": "Float",
    "label": "Exchange Rate"
+  },
+  {
+   "fieldname": "sales_campaign",
+   "fieldtype": "Link",
+   "label": "Sales Campaign",
+   "options": "CRM Sales Campaign"
   }
  ],
  "image_field": "organization_logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-15 11:40:12.175598",
+ "modified": "2025-08-10 11:00:19.197124",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Organization",

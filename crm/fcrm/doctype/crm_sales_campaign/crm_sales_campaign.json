@@ -1,0 +1,99 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:sales_campaign",
+ "creation": "2025-09-08 22:53:59.341751",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sales_campaign",
+  "target_market",
+  "start_date",
+  "column_break_lkcp",
+  "campaign_owner",
+  "target_territory",
+  "end_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "sales_campaign",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Sales Campaign",
+   "not_nullable": 1,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "target_market",
+   "fieldtype": "Link",
+   "label": "Target Market",
+   "options": "CRM Industry"
+  },
+  {
+   "fieldname": "target_territory",
+   "fieldtype": "Link",
+   "label": "Target Territory",
+   "options": "CRM Territory"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "campaign_owner",
+   "fieldtype": "Link",
+   "label": "Campaign Owner",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_lkcp",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-08-10 10:53:42.487079",
+ "modified_by": "Administrator",
+ "module": "FCRM",
+ "name": "CRM Sales Campaign",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
