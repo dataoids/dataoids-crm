@@ -34,8 +34,6 @@
   "column_break_dbsv",
   "status",
   "lead_score",
-  "no_of_employees",
-  "annual_revenue",
   "image",
   "converted",
   "products_tab",
@@ -130,17 +128,6 @@
   {
    "fieldname": "column_break_dbsv",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "no_of_employees",
-   "fieldtype": "Select",
-   "label": "No. of Employees",
-   "options": "1-10\n11-50\n51-200\n201-500\n501-1000\n1000+"
-  },
-  {
-   "fieldname": "annual_revenue",
-   "fieldtype": "Currency",
-   "label": "Annual Revenue"
   },
   {
    "fieldname": "lead_owner",
@@ -336,7 +323,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-13 13:06:56.294205",
+ "modified": "2025-08-13 16:04:35.092126",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",

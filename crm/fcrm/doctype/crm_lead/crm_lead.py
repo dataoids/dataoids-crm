@@ -152,30 +152,6 @@ class CRMLead(Document):
 
 		return contact.name
 
-	def create_organization(self, existing_organization=None):
-		if not self.organization and not existing_organization:
-			return
-
-		existing_organization = existing_organization or frappe.db.exists(
-			"CRM Organization", {"organization_name": self.organization}
-		)
-		if existing_organization:
-			self.db_set("organization", existing_organization)
-			return existing_organization
-
-		organization = frappe.new_doc("CRM Organization")
-		organization.update(
-			{
-				"organization_name": self.organization,
-				"website": self.website,
-				"territory": self.territory,
-				"industry": self.industry,
-				"annual_revenue": self.annual_revenue,
-			}
-		)
-		organization.insert(ignore_permissions=True)
-		return organization.name
-
 	def update_lead_contact(self, contact):
 		contact = frappe.get_cached_doc("Contact", contact)
 		frappe.db.set_value(
@@ -215,7 +191,7 @@ class CRMLead(Document):
 
 		return False
 
-	def create_deal(self, contact, organization, deal=None):
+	def create_deal(self, contact, deal=None):
 		new_deal = frappe.new_doc("CRM Deal")
 
 		lead_deal_map = {
@@ -264,10 +240,7 @@ class CRMLead(Document):
 				fieldname = lead_deal_map[field.fieldname]
 
 			if hasattr(new_deal, fieldname):
-				if fieldname == "organization":
-					new_deal.update({fieldname: organization})
-				else:
-					new_deal.update({fieldname: self.get(field.fieldname)})
+				new_deal.update({fieldname: self.get(field.fieldname)})
 
 		new_deal.update(
 			{
@@ -403,7 +376,7 @@ class CRMLead(Document):
 
 
 @frappe.whitelist()
-def convert_to_deal(lead, doc=None, deal=None, existing_contact=None, existing_organization=None):
+def convert_to_deal(lead, doc=None, deal=None, existing_contact=None):
 	if not (doc and doc.flags.get("ignore_permissions")) and not frappe.has_permission(
 		"CRM Lead", "write", lead
 	):
@@ -416,6 +389,5 @@ def convert_to_deal(lead, doc=None, deal=None, existing_contact=None, existing_o
 	if lead.sla and frappe.db.exists("CRM Communication Status", "Replied"):
 		lead.db_set("communication_status", "Replied")
 	contact = lead.create_contact(existing_contact, False)
-	organization = lead.create_organization(existing_organization)
-	_deal = lead.create_deal(contact, organization, deal)
+	_deal = lead.create_deal(contact, deal)
 	return _deal

@@ -34,31 +34,6 @@
       </div>
     </template>
     <template #body-content>
-      <div class="mb-4 flex items-center gap-2 text-ink-gray-5">
-        <OrganizationsIcon class="h-4 w-4" />
-        <label class="block text-base">{{ __('Organization') }}</label>
-      </div>
-      <div class="ml-6 text-ink-gray-9">
-        <div class="flex items-center justify-between text-base">
-          <div>{{ __('Choose Existing') }}</div>
-          <Switch v-model="existingOrganizationChecked" />
-        </div>
-        <Link
-          v-if="existingOrganizationChecked"
-          class="form-control mt-2.5"
-          size="md"
-          :value="existingOrganization"
-          doctype="CRM Organization"
-          @change="(data) => (existingOrganization = data)"
-        />
-        <div v-else class="mt-2.5 text-base">
-          {{
-            __(
-              'New organization will be created based on the data in details section',
-            )
-          }}
-        </div>
-      </div>
 
       <div class="mb-4 mt-6 flex items-center gap-2 text-ink-gray-5">
         <ContactsIcon class="h-4 w-4" />
@@ -95,7 +70,6 @@
   </Dialog>
 </template>
 <script setup>
-import OrganizationsIcon from '@/components/Icons/OrganizationsIcon.vue'
 import ContactsIcon from '@/components/Icons/ContactsIcon.vue'
 import EditIcon from '@/components/Icons/EditIcon.vue'
 import FieldLayout from '@/components/FieldLayout/FieldLayout.vue'
@@ -129,10 +103,8 @@ const { user } = sessionStore()
 const { updateOnboardingStep } = useOnboarding('frappecrm')
 
 const existingContactChecked = ref(false)
-const existingOrganizationChecked = ref(false)
 
 const existingContact = ref('')
-const existingOrganization = ref('')
 const error = ref('')
 
 const { triggerConvertToDeal } = useDocument('CRM Lead', props.lead.name)
@@ -146,17 +118,8 @@ async function convertToDeal() {
     return
   }
 
-  if (existingOrganizationChecked.value && !existingOrganization.value) {
-    error.value = __('Please select an existing organization')
-    return
-  }
-
   if (!existingContactChecked.value && existingContact.value) {
     existingContact.value = ''
-  }
-
-  if (!existingOrganizationChecked.value && existingOrganization.value) {
-    existingOrganization.value = ''
   }
 
   await triggerConvertToDeal?.(props.lead, deal.doc, () => (show.value = false))
@@ -165,7 +128,6 @@ async function convertToDeal() {
     lead: props.lead.name,
     deal: deal.doc,
     existing_contact: existingContact.value,
-    existing_organization: existingOrganization.value,
   }).catch((err) => {
     if (err.exc_type == 'MandatoryError') {
       const errorMessage = err.messages
@@ -187,9 +149,7 @@ async function convertToDeal() {
   if (_deal) {
     show.value = false
     existingContactChecked.value = false
-    existingOrganizationChecked.value = false
     existingContact.value = ''
-    existingOrganization.value = ''
     error.value = ''
     updateOnboardingStep('convert_lead_to_deal', true, false, () => {
       localStorage.setItem('firstDeal' + user, _deal)

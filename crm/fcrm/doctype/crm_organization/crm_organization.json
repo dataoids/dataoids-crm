@@ -56,6 +56,7 @@
    "options": "currency"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "industry",
    "fieldtype": "Link",
    "label": "Industry",
@@ -95,7 +96,7 @@
  "image_field": "organization_logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-10 11:00:19.197124",
+ "modified": "2025-08-13 15:46:50.481170",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Organization",
