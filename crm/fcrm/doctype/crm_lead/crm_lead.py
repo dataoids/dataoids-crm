@@ -5,7 +5,7 @@ import frappe
 from frappe import _
 from frappe.desk.form.assign_to import add as assign
 from frappe.model.document import Document
-from frappe.utils import has_gravatar, validate_email_address
+from frappe.utils import has_gravatar, validate_email_address, add_to_date
 
 from crm.fcrm.doctype.crm_service_level_agreement.utils import get_sla
 from crm.fcrm.doctype.crm_status_change_log.crm_status_change_log import (
@@ -21,6 +21,8 @@ class CRMLead(Document):
 		self.set_full_name()
 		self.set_lead_name()
 		self.set_title()
+		if not self.is_new() and self.has_value_changed("status"):
+			self.update_next_follow_up()
 		self.validate_email()
 		if not self.is_new() and self.has_value_changed("lead_owner") and self.lead_owner:
 			self.share_with_agent(self.lead_owner)
@@ -60,6 +62,12 @@ class CRMLead(Document):
 				self.lead_name = self.email.split("@")[0]
 			else:
 				self.lead_name = "Unnamed Lead"
+
+	def update_next_follow_up(self):
+		if self.status == "Not Replied":
+			self.next_follow_up_on = add_to_date(days=2)
+		elif self.status == "Replied":
+			self.next_follow_up_on = add_to_date(hours=2)
 
 	def set_title(self):
 		self.title = self.organization or self.lead_name
@@ -327,15 +335,15 @@ class CRMLead(Document):
 				"width": "12rem",
 			},
 			{
-				"label": "Mobile No",
-				"type": "Data",
-				"key": "mobile_no",
-				"width": "11rem",
-			},
-			{
 				"label": "Assigned To",
 				"type": "Text",
 				"key": "_assign",
+				"width": "10rem",
+			},
+			{
+				"label": "Next Follow Up",
+				"type": "Datetime",
+				"key": "next_follow_up_on",
 				"width": "10rem",
 			},
 			{
@@ -358,6 +366,7 @@ class CRMLead(Document):
 			"first_name",
 			"sla_status",
 			"response_by",
+			"next_follow_up_on",
 			"first_response_time",
 			"first_responded_on",
 			"modified",

@@ -16,6 +16,15 @@
         v-if="document.actions?.length"
         :actions="document.actions"
       />
+      <Tooltip :text="doc.next_follow_up_on">
+        <div
+          v-if="doc.next_follow_up_on"
+          class="flex items-center gap-1.5 text-base text-ink-gray-8"
+        >
+          <DurationIcon class="size-4" />
+          <span>{{ timeAgo(doc.next_follow_up_on) }}</span>
+        </div>
+      </Tooltip>
       <AssignTo v-model="assignees.data" doctype="CRM Lead" :docname="leadId" />
       <Dropdown
         v-if="doc"
@@ -121,7 +130,7 @@
             <div class="flex flex-col gap-2.5 truncate">
               <Tooltip :text="doc.lead_name || __('Set first name')">
                 <div class="truncate text-2xl font-medium text-ink-gray-9">
-                  {{ title }}
+                  {{ doc.lead_name }}
                 </div>
               </Tooltip>
               <div class="flex gap-1.5">
@@ -156,13 +165,13 @@
                     </Button>
                   </div>
                 </Tooltip>
-                <Tooltip :text="__('Go to website')">
+                <Tooltip :text="__('Go to LinkedIn')">
                   <div>
                     <Button
                       @click="
-                        doc.website
-                          ? openWebsite(doc.website)
-                          : toast.error(__('No website set'))
+                        doc.linkedin_url
+                          ? openWebsite(doc.linkedin_url)
+                          : toast.error(__('No Linked URL set'))
                       "
                     >
                       <template #icon>
@@ -262,6 +271,7 @@ import IndicatorIcon from '@/components/Icons/IndicatorIcon.vue'
 import CameraIcon from '@/components/Icons/CameraIcon.vue'
 import LinkIcon from '@/components/Icons/LinkIcon.vue'
 import AttachmentIcon from '@/components/Icons/AttachmentIcon.vue'
+import DurationIcon from '@/components/Icons/DurationIcon.vue'
 import LayoutHeader from '@/components/LayoutHeader.vue'
 import Activities from '@/components/Activities/Activities.vue'
 import AssignTo from '@/components/AssignTo.vue'
@@ -275,6 +285,7 @@ import {
   setupCustomizations,
   copyToClipboard,
   validateIsImageFile,
+  timeAgo,
 } from '@/utils'
 import { getView } from '@/utils/view'
 import { getSettings } from '@/stores/settings'

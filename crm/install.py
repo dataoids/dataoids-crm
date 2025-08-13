@@ -181,7 +181,7 @@ def add_default_fields_layout(force=False):
 	sidebar_fields_layouts = {
 		"CRM Lead-Side Panel": {
 			"doctype": "CRM Lead",
-			"layout": '[{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_XmW2","fields":["first_name","last_name","job_title","linkedin_url","email","mobile_no"]}],"editingLabel":false},{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_kl92","fields":["sales_campaign","organization","source","lead_score"]}]}]',
+			"layout": '[{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_XmW2","fields":["first_name","last_name","job_title","linkedin_url","email","mobile_no"]}],"editingLabel":false},{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_kl92","fields":["sales_campaign","organization","source","lead_score","next_follow_up_on"]}]}]',
 		},
 		"CRM Deal-Side Panel": {
 			"doctype": "CRM Deal",

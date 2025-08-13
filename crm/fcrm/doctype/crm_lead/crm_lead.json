@@ -34,6 +34,7 @@
   "column_break_dbsv",
   "status",
   "lead_score",
+  "next_follow_up_on",
   "image",
   "converted",
   "products_tab",
@@ -317,13 +318,19 @@
    "fieldname": "lead_score",
    "fieldtype": "Percent",
    "label": "Lead Score"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "next_follow_up_on",
+   "fieldtype": "Datetime",
+   "label": "Next Follow-up On"
   }
  ],
  "grid_page_length": 50,
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-13 16:04:35.092126",
+ "modified": "2025-08-13 19:56:37.373453",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",
