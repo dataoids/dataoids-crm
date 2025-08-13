@@ -1,5 +1,5 @@
 <template>
-  <LayoutHeader v-if="organization.doc">
+  <LayoutHeader v-if="salesCampaign.doc">
     <template #left-header>
       <Breadcrumbs :items="breadcrumbs">
         <template #prefix="{ item }">
@@ -8,72 +8,33 @@
       </Breadcrumbs>
     </template>
   </LayoutHeader>
-  <div v-if="organization.doc" ref="parentRef" class="flex h-full">
+  <div v-if="salesCampaign.doc" ref="parentRef" class="flex h-full">
     <Resizer
-      v-if="organization.doc"
+      v-if="salesCampaign.doc"
       :parent="$refs.parentRef"
       class="flex h-full flex-col overflow-hidden border-r"
     >
       <div class="border-b">
-        <FileUploader
-          @success="changeOrganizationImage"
-          :validateFile="validateIsImageFile"
-        >
-          <template #default="{ openFileSelector, error }">
+        
+          <div>
             <div class="flex flex-col items-start justify-start gap-4 p-5">
-              <div class="flex gap-4 items-center">
-                <div class="group relative h-15.5 w-15.5">
-                  <Avatar
-                    size="3xl"
-                    class="h-15.5 w-15.5"
-                    :label="organization.doc.organization_name"
-                    :image="organization.doc.organization_logo"
-                  />
-                  <component
-                    :is="organization.doc.image ? Dropdown : 'div'"
-                    v-bind="
-                      organization.doc.image
-                        ? {
-                            options: [
-                              {
-                                icon: 'upload',
-                                label: organization.doc.image
-                                  ? __('Change image')
-                                  : __('Upload image'),
-                                onClick: openFileSelector,
-                              },
-                              {
-                                icon: 'trash-2',
-                                label: __('Remove image'),
-                                onClick: () => changeOrganizationImage(''),
-                              },
-                            ],
-                          }
-                        : { onClick: openFileSelector }
-                    "
-                    class="!absolute bottom-0 left-0 right-0"
-                  >
-                    <div
-                      class="z-1 absolute bottom-0 left-0 right-0 flex h-14 cursor-pointer items-center justify-center rounded-b-full bg-black bg-opacity-40 pt-5 opacity-0 duration-300 ease-in-out group-hover:opacity-100"
-                      style="
-                        -webkit-clip-path: inset(22px 0 0 0);
-                        clip-path: inset(22px 0 0 0);
-                      "
-                    >
-                      <CameraIcon class="h-6 w-6 cursor-pointer text-white" />
-                    </div>
-                  </component>
-                </div>
+             <div class="flex gap-4 items-center">
                 <div class="flex flex-col gap-2 truncate">
                   <div class="truncate text-2xl font-medium text-ink-gray-9">
-                    <span>{{ organization.doc.name }}</span>
+                    <span>{{ salesCampaign.doc.name }}</span>
                   </div>
                   <div
-                    v-if="organization.doc.website"
+                    v-if="salesCampaign.doc.campaign_owner"
                     class="flex items-center gap-1.5 text-base text-ink-gray-8"
                   >
-                    <WebsiteIcon class="size-4" />
-                    <span>{{ website(organization.doc.website) }}</span>
+                    <Avatar
+                    v-if="salesCampaign.doc.campaign_owner"
+                    class="flex items-center"
+                    :image="getUser(salesCampaign.doc.campaign_owner).user_image"
+                    :label="getUser(salesCampaign.doc.campaign_owner).full_name"
+                    size="xs"
+                  />
+                    <span>{{ salesCampaign.doc.campaign_owner }}</span>
                   </div>
                   <ErrorMessage :message="__(error)" />
                 </div>
@@ -83,23 +44,15 @@
                   :label="__('Delete')"
                   theme="red"
                   size="sm"
-                  @click="deleteOrganization()"
+                  @click="deleteSalesCampaign()"
                 >
                   <template #prefix>
                     <FeatherIcon name="trash-2" class="h-4 w-4" />
                   </template>
                 </Button>
-                <Tooltip :text="__('Open website')">
-                  <div>
-                    <Button @click="openWebsite">
-                      <FeatherIcon name="link" class="h-4 w-4" />
-                    </Button>
-                  </div>
-                </Tooltip>
               </div>
             </div>
-          </template>
-        </FileUploader>
+          </div>
       </div>
       <div
         v-if="sections.data"
@@ -107,8 +60,8 @@
       >
         <SidePanelLayout
           :sections="sections.data"
-          doctype="CRM Organization"
-          :docname="organization.doc.name"
+          doctype="CRM Sales Campaign"
+          :docname="props.salesCampaignId"
           @reload="sections.reload"
         />
       </div>
@@ -133,16 +86,16 @@
         </button>
       </template>
       <template #tab-panel="{ tab }">
-        <DealsListView
+        <OrganizationsListView
           class="mt-4"
-          v-if="tab.label === 'Deals' && rows.length"
+          v-if="tab.label === 'Organizations' && rows.length"
           :rows="rows"
           :columns="columns"
-          :options="{ selectable: false, showTooltip: false }"
+          :options="{ resizeColumn: false, showTooltip: false }"
         />
-        <ContactsListView
+        <LeadsListView
           class="mt-4"
-          v-if="tab.label === 'Contacts' && rows.length"
+          v-if="tab.label === 'Leads' && rows.length"
           :rows="rows"
           :columns="columns"
           :options="{ selectable: false, showTooltip: false }"
@@ -167,9 +120,9 @@
   <DeleteLinkedDocModal
     v-if="showDeleteLinkedDocModal"
     v-model="showDeleteLinkedDocModal"
-    :doctype="'CRM Organization'"
-    :docname="props.organizationId"
-    name="Organizations"
+    :doctype="'CRM Sales Campaign'"
+    :docname="props.salesCampaignId"
+    name="SalesCampaigns"
   />
 </template>
 
@@ -179,39 +132,31 @@ import Resizer from '@/components/Resizer.vue'
 import SidePanelLayout from '@/components/SidePanelLayout.vue'
 import Icon from '@/components/Icon.vue'
 import LayoutHeader from '@/components/LayoutHeader.vue'
-import DealsListView from '@/components/ListViews/DealsListView.vue'
-import ContactsListView from '@/components/ListViews/ContactsListView.vue'
-import WebsiteIcon from '@/components/Icons/WebsiteIcon.vue'
-import CameraIcon from '@/components/Icons/CameraIcon.vue'
-import DealsIcon from '@/components/Icons/DealsIcon.vue'
-import ContactsIcon from '@/components/Icons/ContactsIcon.vue'
-import { showAddressModal, addressProps } from '@/composables/modals'
+import LeadsListView from '@/components/ListViews/LeadsListView.vue'
+import OrganizationsListView from '@/components/ListViews/OrganizationsListView.vue'
+import LeadsIcon from '@/components/Icons/LeadsIcon.vue'
+import OrganizationsIcon from '@/components/Icons/OrganizationsIcon.vue'
 import { useDocument } from '@/data/document'
 import { getSettings } from '@/stores/settings'
 import { getMeta } from '@/stores/meta'
 import { usersStore } from '@/stores/users'
 import { statusesStore } from '@/stores/statuses'
 import { getView } from '@/utils/view'
-import { formatDate, timeAgo, validateIsImageFile } from '@/utils'
+import { formatDate, timeAgo, website } from '@/utils'
 import {
-  Tooltip,
   Breadcrumbs,
   Avatar,
-  FileUploader,
-  Dropdown,
   Tabs,
-  call,
   createListResource,
   usePageMeta,
   createResource,
-  toast,
 } from 'frappe-ui'
-import { h, computed, ref } from 'vue'
+import { h, computed, ref, toDisplayString } from 'vue'
 import { useRoute } from 'vue-router'
 import DeleteLinkedDocModal from '@/components/DeleteLinkedDocModal.vue'
 
 const props = defineProps({
-  organizationId: {
+  salesCampaignId: {
     type: String,
     required: true,
   },
@@ -219,8 +164,10 @@ const props = defineProps({
 
 const { brand } = getSettings()
 const { getUser } = usersStore()
-const { getDealStatus } = statusesStore()
-const { doctypeMeta } = getMeta('CRM Organization')
+const { getLeadStatus } = statusesStore()
+const { doctypeMeta } = getMeta('CRM Sales Campaign')
+const { getFormattedCurrency } =
+  getMeta('CRM Organization')
 
 const route = useRoute()
 
@@ -229,26 +176,26 @@ const errorMessage = ref('')
 
 const showDeleteLinkedDocModal = ref(false)
 
-const { document: organization } = useDocument(
-  'CRM Organization',
-  props.organizationId,
+const { document: salesCampaign } = useDocument(
+  'CRM Sales Campaign',
+  props.salesCampaignId,
 )
 
 const breadcrumbs = computed(() => {
-  let items = [{ label: __('Organizations'), route: { name: 'Organizations' } }]
+  let items = [{ label: __('SalesCampaigns'), route: { name: 'SalesCampaigns' } }]
 
   if (route.query.view || route.query.viewType) {
     let view = getView(
       route.query.view,
       route.query.viewType,
-      'CRM Organization',
+      'CRM Sales Campaign',
     )
     if (view) {
       items.push({
         label: __(view.label),
         icon: view.icon,
         route: {
-          name: 'Organizations',
+          name: 'SalesCampaigns',
           params: { viewType: route.query.viewType },
           query: { view: route.query.view },
         },
@@ -259,16 +206,16 @@ const breadcrumbs = computed(() => {
   items.push({
     label: title.value,
     route: {
-      name: 'Organization',
-      params: { organizationId: props.organizationId },
+      name: 'SalesCampaign',
+      params: { salesCampaignId: props.salesCampaignId },
     },
   })
   return items
 })
 
 const title = computed(() => {
-  let t = doctypeMeta['CRM Organization']?.title_field || 'name'
-  return organization.doc?.[t] || props.organizationId
+  let t = doctypeMeta['CRM Sales Campaign']?.title_field || 'name'
+  return salesCampaign.doc?.[t] || props.salesCampaignId
 })
 
 usePageMeta(() => {
@@ -278,112 +225,76 @@ usePageMeta(() => {
   }
 })
 
-async function deleteOrganization() {
+async function deleteSalesCampaign() {
   showDeleteLinkedDocModal.value = true
 }
 
-async function changeOrganizationImage(file) {
-  await call('frappe.client.set_value', {
-    doctype: 'CRM Organization',
-    name: props.organizationId,
-    fieldname: 'organization_logo',
-    value: file?.file_url || '',
-  })
-  organization.reload()
-}
-
-function website(url) {
-  return url && url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '')
-}
-
-function openWebsite() {
-  if (!organization.doc.website) toast.error(__('No website found'))
-  else window.open(organization.doc.website, '_blank')
-}
 
 const sections = createResource({
   url: 'crm.fcrm.doctype.crm_fields_layout.crm_fields_layout.get_sidepanel_sections',
-  cache: ['sidePanelSections', 'CRM Organization'],
-  params: { doctype: 'CRM Organization' },
+  cache: ['sidePanelSections', 'CRM Sales Campaign'],
+  params: { doctype: 'CRM Sales Campaign' },
   auto: true,
-  transform: (data) => getParsedSections(data),
+  transform: (data) => data,
 })
 
-function getParsedSections(_sections) {
-  return _sections.map((section) => {
-    section.columns = section.columns.map((column) => {
-      column.fields = column.fields.map((field) => {
-        if (field.fieldname === 'address') {
-          return {
-            ...field,
-            create: (value, close) => {
-              openAddressModal()
-              close()
-            },
-            edit: (address) => openAddressModal(address),
-          }
-        } else {
-          return field
-        }
-      })
-      return column
-    })
-    return section
-  })
-}
+
 
 const tabIndex = ref(0)
 const tabs = [
   {
-    label: 'Deals',
-    icon: h(DealsIcon, { class: 'h-4 w-4' }),
-    count: computed(() => deals.data?.length),
+    label: 'Organizations',
+    icon: h(OrganizationsIcon, { class: 'h-4 w-4' }),
+    count: computed(() => organizations.data?.length),
   },
   {
-    label: 'Contacts',
-    icon: h(ContactsIcon, { class: 'h-4 w-4' }),
-    count: computed(() => contacts.data?.length),
+    label: 'Leads',
+    icon: h(LeadsIcon, { class: 'h-4 w-4' }),
+    count: computed(() => leads.data?.length),
   },
 ]
 
-const deals = createListResource({
+const leads = createListResource({
   type: 'list',
-  doctype: 'CRM Deal',
-  cache: ['deals', props.organizationId],
+  doctype: 'CRM Lead',
+  cache: ['leads', props.salesCampaignId],
   fields: [
-    'name',
-    'organization',
-    'currency',
-    'annual_revenue',
-    'status',
-    'email',
-    'mobile_no',
-    'deal_owner',
-    'modified',
+    "name",
+    "lead_name",
+    "organization",
+    "status",
+    "sales_campaign",
+    "email",
+    "lead_owner",
+    "first_name",
+    "modified",
+    "_assign",
+    "image",
   ],
   filters: {
-    organization: props.organizationId,
+    sales_campaign: props.salesCampaignId,
   },
   orderBy: 'modified desc',
   pageLength: 20,
   auto: true,
 })
 
-const contacts = createListResource({
+const organizations = createListResource({
   type: 'list',
-  doctype: 'Contact',
-  cache: ['contacts', props.organizationId],
+  doctype: 'CRM Organization',
+  cache: ['organizations', props.salesCampaignId],
   fields: [
     'name',
-    'full_name',
-    'image',
-    'email_id',
-    'mobile_no',
-    'company_name',
+    'organization_name',
+    'organization_logo',
+    'website',
+    'territory',
+    'industry',
+    'sales_campaign',
     'modified',
   ],
   filters: {
-    company_name: props.organizationId,
+    sales_campaign: props.salesCampaignId,
   },
   orderBy: 'modified desc',
   pageLength: 20,
@@ -392,78 +303,75 @@ const contacts = createListResource({
 
 const rows = computed(() => {
   let list = []
-  list = !tabIndex.value ? deals : contacts
+  list = !tabIndex.value ? organizations : leads
 
   if (!list.data) return []
-
   return list.data.map((row) => {
-    return !tabIndex.value ? getDealRowObject(row) : getContactRowObject(row)
+    return !tabIndex.value ?  getOrganizationRowObject(row) : getLeadRowObject(row)
   })
 })
 
-const { getFormattedCurrency } = getMeta('CRM Deal')
-
 const columns = computed(() => {
-  return tabIndex.value === 0 ? dealColumns : contactColumns
+  return tabIndex.value === 0 ?  organizationColumns : leadColumns 
 })
 
-function getDealRowObject(deal) {
+function getLeadRowObject(lead) {
   return {
-    name: deal.name,
-    organization: {
-      label: deal.organization,
-      logo: organization.doc?.organization_logo,
+    lead_name: {
+        label: lead.lead_name,
+        image: lead.image,
+        image_label: lead.first_name,
     },
-    annual_revenue: getFormattedCurrency('annual_revenue', deal),
+    name: lead.name,
+    salesCampaign: lead.sales_campaign,
+    linkedin_url: lead.linkedin_url,
+    organization: lead.organization,
     status: {
-      label: deal.status,
-      color: getDealStatus(deal.status)?.color,
+      label: lead.status,
+      color: getLeadStatus(lead.status)?.color,
     },
-    email: deal.email,
-    mobile_no: deal.mobile_no,
-    deal_owner: {
-      label: deal.deal_owner && getUser(deal.deal_owner).full_name,
-      ...(deal.deal_owner && getUser(deal.deal_owner)),
+    email: lead.email,
+    mobile_no: lead.mobile_no,
+    lead_owner: {
+      label: lead.lead_owner && getUser(lead.lead_owner).full_name,
+      ...(lead.lead_owner && getUser(lead.lead_owner)),
     },
     modified: {
-      label: formatDate(deal.modified),
-      timeAgo: __(timeAgo(deal.modified)),
+      label: formatDate(lead.modified),
+      timeAgo: __(timeAgo(lead.modified)),
     },
   }
 }
 
-function getContactRowObject(contact) {
+function getOrganizationRowObject(organization) {
   return {
-    name: contact.name,
-    full_name: {
-      label: contact.full_name,
-      image_label: contact.full_name,
-      image: contact.image,
-    },
-    email: contact.email_id,
-    mobile_no: contact.mobile_no,
-    company_name: {
-      label: contact.company_name,
-      logo: organization.doc?.organization_logo,
-    },
+    name: organization.name,
+    organization_name: {
+          label: organization.organization_name,
+          logo: organization.organization_logo,
+        },
+    website: website(organization.website),
+    territory: organization.territory,
+    industry: organization.industry,
+    annual_revenue: getFormattedCurrency('annual_revenue', organization),
     modified: {
-      label: formatDate(contact.modified),
-      timeAgo: __(timeAgo(contact.modified)),
+      label: formatDate(organization.modified),
+      timeAgo: __(timeAgo(organization.modified)),
     },
   }
 }
 
-const dealColumns = [
+const leadColumns = [
+  {
+    label: __('Name'),
+    key: 'lead_name',
+    align: 'left',
+    width: '12rem',
+  },
   {
     label: __('Organization'),
     key: 'organization',
-    width: '11rem',
-  },
-  {
-    label: __('Amount'),
-    key: 'annual_revenue',
-    align: 'right',
-    width: '9rem',
+    width: '12rem',
   },
   {
     label: __('Status'),
@@ -471,18 +379,8 @@ const dealColumns = [
     width: '10rem',
   },
   {
-    label: __('Email'),
-    key: 'email',
-    width: '12rem',
-  },
-  {
-    label: __('Mobile no'),
-    key: 'mobile_no',
-    width: '11rem',
-  },
-  {
-    label: __('Deal owner'),
-    key: 'deal_owner',
+    label: __('Lead owner'),
+    key: 'lead_owner',
     width: '10rem',
   },
   {
@@ -492,26 +390,26 @@ const dealColumns = [
   },
 ]
 
-const contactColumns = [
-  {
-    label: __('Name'),
-    key: 'full_name',
-    width: '17rem',
-  },
-  {
-    label: __('Email'),
-    key: 'email',
-    width: '12rem',
-  },
-  {
-    label: __('Phone'),
-    key: 'mobile_no',
-    width: '12rem',
-  },
+const organizationColumns = [
   {
     label: __('Organization'),
-    key: 'company_name',
+    key: 'organization_name',
     width: '12rem',
+  },
+  {
+    label: __('Website'),
+    key: 'website',
+    width: '10rem',
+  },
+  {
+    label: __('Territory'),
+    key: 'territory',
+    width: '8rem',
+  },
+  {
+    label: __('Annual Revenue'),
+    key: 'annual_revenue',
+    width: '10rem',
   },
   {
     label: __('Last modified'),
@@ -520,11 +418,4 @@ const contactColumns = [
   },
 ]
 
-function openAddressModal(_address) {
-  showAddressModal.value = true
-  addressProps.value = {
-    doctype: 'Address',
-    address: _address,
-  }
-}
 </script>

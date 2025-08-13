@@ -43,6 +43,17 @@
       doctype="CRM Sales Campaign"
     >
       <ListRowItem :item="item" :align="column.align">
+        <template #prefix>
+          <div v-if="column.key === 'campaign_owner'">
+            <Avatar
+              v-if="item.full_name"
+              class="flex items-center"
+              :image="item.user_image"
+              :label="item.full_name"
+              size="sm"
+            />
+          </div>
+        </template>
         <template #default="{ label }">
           <div
             v-if="['modified', 'creation'].includes(column.key)"
@@ -134,6 +145,7 @@ import HeartIcon from '@/components/Icons/HeartIcon.vue'
 import ListBulkActions from '@/components/ListBulkActions.vue'
 import ListRows from '@/components/ListViews/ListRows.vue'
 import {
+  Avatar,
   ListView,
   ListHeader,
   ListHeaderItem,

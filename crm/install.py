@@ -164,6 +164,10 @@ def add_default_fields_layout(force=False):
 			"doctype": "CRM Organization",
 			"layout": '[{"name": "organization_section", "columns": [{"name": "column_zOuv", "fields": ["organization_name"]}]}, {"name": "website_revenue_section", "hideBorder": true, "columns": [{"name": "column_I5Dy", "fields": ["website"]}, {"name": "column_Rgss", "fields": ["annual_revenue"]}]}, {"name": "territory_section", "hideBorder": true, "columns": [{"name": "column_w6ap", "fields": ["territory"]}]}, {"name": "employee_industry_section", "hideBorder": true, "columns": [{"name": "column_u5tZ", "fields": ["no_of_employees"]}, {"name": "column_FFrT", "fields": ["industry"]}]}, {"name": "address_section", "hideBorder": true, "columns": [{"name": "column_O2dk", "fields": ["address"]}]}]',
 		},
+  		"CRM Sales Campaign-Quick Entry": {
+			"doctype": "CRM Sales Campaign",
+			"layout": '[{"name": "sales_campaign_section", "columns": [{"name": "column_zOuv", "fields": ["sales_campaign"]}]}, {"name": "target_territory", "hideBorder": true, "columns": [{"name": "column_I5Dy", "fields": ["target_market"]}, {"name": "column_Rgss", "fields": ["campaign_status"]}]}, {"name": "owner_section", "hideBorder": true, "columns": [{"name": "column_w6ap", "fields": ["campaign_owner"]}]}]',
+		},
 		"Address-Quick Entry": {
 			"doctype": "Address",
 			"layout": '[{"name": "details_section", "columns": [{"name": "column_uSSG", "fields": ["address_title", "address_type", "address_line1", "address_line2", "city", "state", "country", "pincode"]}]}]',
@@ -190,6 +194,10 @@ def add_default_fields_layout(force=False):
 		"CRM Organization-Side Panel": {
 			"doctype": "CRM Organization",
 			"layout": '[{"label": "Details", "name": "details_section", "opened": true, "columns": [{"name": "column_IJOV", "fields": ["organization_name", "website", "territory", "industry", "no_of_employees", "address"]}]}]',
+		},
+  		"CRM Sales Campaign-Side Panel": {
+			"doctype": "CRM Sales Campaign",
+			"layout": '[{"label": "Details", "name": "details_section", "opened": true, "columns": [{"name": "column_IJOV", "fields": ["sales_campaign", "target_market", "target_industry", "campaign_status", "campaign_owner", "start_date", "end_date"]}]}]',
 		},
 	}
 

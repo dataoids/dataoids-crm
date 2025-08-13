@@ -75,6 +75,7 @@ import LayoutHeader from '@/components/LayoutHeader.vue'
 import SalesCampaignModal from '@/components/Modals/SalesCampaignModal.vue'
 import SalesCampaignsListView from '@/components/ListViews/SalesCampaignsListView.vue'
 import ViewControls from '@/components/ViewControls.vue'
+import { usersStore } from '@/stores/users'
 import { formatDate, timeAgo } from '@/utils'
 import { ref, computed } from 'vue'
 
@@ -85,6 +86,7 @@ const salesCampaigns = ref({})
 const loadMore = ref(1)
 const triggerResize = ref(1)
 const updatedPageCount = ref(20)
+const { getUser } = usersStore()
 const viewControls = ref(null)
 
 const rows = computed(() => {
@@ -119,6 +121,11 @@ const rows = computed(() => {
         _rows[row] = {
           label: formatDate(salesCampaign[row]),
           timeAgo: __(timeAgo(salesCampaign[row])),
+        }
+      } else if (row == 'campaign_owner') {
+        _rows[row] = {
+          label: salesCampaign.campaign_owner && getUser(salesCampaign.campaign_owner).full_name,
+          ...(salesCampaign.campaign_owner && getUser(salesCampaign.campaign_owner)),
         }
       }
     })

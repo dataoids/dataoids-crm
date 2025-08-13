@@ -11,12 +11,9 @@
  "engine": "InnoDB",
  "field_order": [
   "details",
-  "organization",
-  "website",
-  "territory",
-  "industry",
-  "job_title",
   "source",
+  "organization",
+  "job_title",
   "lead_owner",
   "person_tab",
   "salutation",
@@ -115,11 +112,6 @@
    "search_index": 1
   },
   {
-   "fieldname": "website",
-   "fieldtype": "Data",
-   "label": "Website"
-  },
-  {
    "fieldname": "mobile_no",
    "fieldtype": "Data",
    "label": "Mobile No",
@@ -163,12 +155,6 @@
    "options": "CRM Lead Source"
   },
   {
-   "fieldname": "industry",
-   "fieldtype": "Link",
-   "label": "Industry",
-   "options": "CRM Industry"
-  },
-  {
    "fieldname": "image",
    "fieldtype": "Attach Image",
    "hidden": 1,
@@ -194,8 +180,9 @@
   },
   {
    "fieldname": "organization",
-   "fieldtype": "Data",
-   "label": "Organization"
+   "fieldtype": "Link",
+   "label": "Organization",
+   "options": "CRM Organization"
   },
   {
    "default": "0",
@@ -279,12 +266,6 @@
    "options": "CRM Communication Status"
   },
   {
-   "fieldname": "territory",
-   "fieldtype": "Link",
-   "label": "Territory",
-   "options": "CRM Territory"
-  },
-  {
    "fieldname": "log_tab",
    "fieldtype": "Tab Break",
    "label": "Log",
@@ -355,7 +336,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-10 11:19:23.317450",
+ "modified": "2025-08-13 13:06:56.294205",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",

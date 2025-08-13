@@ -13,16 +13,16 @@ class CRMSalesCampaign(Document):
                 "width": "16rem",
             },
             {
-                "label": "Territory",
-                "type": "Link",
-                "key": "target_territory",
-                "width": "12rem",
-            },
-            {
                 "label": "Target Market",
                 "type": "Link",
                 "key": "target_market",
                 "options": "CRM Industry",
+                "width": "12rem",
+            },
+            {
+                "label": "Target Industry",
+                "type": "Link",
+                "key": "target_industry",
                 "width": "12rem",
             },
             {
@@ -45,9 +45,10 @@ class CRMSalesCampaign(Document):
 			},
         ]
         rows = [
+            "name",
             "sales_campaign",
-            "target_territory",
             "target_market",
+            "target_industry",
             "campaign_status",
             "campaign_owner",
             "modified",

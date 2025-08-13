@@ -60,6 +60,7 @@ class CRMOrganization(Document):
 			"organization_name",
 			"organization_logo",
 			"website",
+   			"territory",
 			"industry",
 			"sales_campaign",
 			"currency",
