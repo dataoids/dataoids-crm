@@ -13,6 +13,8 @@
   "details",
   "source",
   "organization",
+  "lead_type",
+  "job_title_category",
   "job_title",
   "lead_owner",
   "person_tab",
@@ -365,13 +367,23 @@
    "fieldname": "last_linkedin_check",
    "fieldtype": "Datetime",
    "label": "Last LinkedIn Check"
+  },
+  {
+   "fieldname": "lead_type",
+   "fieldtype": "Data",
+   "label": "Lead Type"
+  },
+  {
+   "fieldname": "job_title_category",
+   "fieldtype": "Data",
+   "label": "Job Title Category"
   }
  ],
  "grid_page_length": 50,
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-18 17:22:43.269938",
+ "modified": "2025-08-18 19:39:22.198770",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",
