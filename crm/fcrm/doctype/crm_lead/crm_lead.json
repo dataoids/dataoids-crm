@@ -33,6 +33,8 @@
   "phone",
   "column_break_dbsv",
   "status",
+  "linkedin_status",
+  "email_status",
   "lead_score",
   "next_follow_up_on",
   "image",
@@ -100,6 +102,26 @@
    "in_list_view": 1,
    "label": "Status",
    "options": "CRM Lead Status",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "New",
+   "fieldname": "linkedin_status",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "LinkedIn Status",
+   "options": "CRM Lead LinkedIn Status",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "New",
+   "fieldname": "email_status",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Email Status",
+   "options": "CRM Lead Email Status",
    "reqd": 1,
    "search_index": 1
   },

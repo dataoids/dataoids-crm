@@ -66,7 +66,7 @@ const props = defineProps({
 
 const { user } = sessionStore()
 const { getUser, isManager } = usersStore()
-const { getLeadStatus, statusOptions } = statusesStore()
+const { getLeadStatus, getLeadLinkedinStatus, getLeadEmailStatus, statusOptions } = statusesStore()
 const { updateOnboardingStep } = useOnboarding('frappecrm')
 
 const show = defineModel()
@@ -80,6 +80,23 @@ const leadStatuses = computed(() => {
   let statuses = statusOptions('lead')
   if (!lead.doc.status) {
     lead.doc.status = statuses?.[0]?.value
+  }
+  return statuses
+})
+
+const leadLinkedinStatuses = computed(() => {
+  let statuses = statusOptions('lead-linkedin')
+  if (!lead.doc.linkedin_status) {
+    lead.doc.linkedin_status = statuses?.[0]?.value
+  }
+  return statuses
+})
+
+
+const leadEmailStatuses = computed(() => {
+  let statuses = statusOptions('lead-email')
+  if (!lead.doc.email_status) {
+    lead.doc.email_status = statuses?.[0]?.value
   }
   return statuses
 })
@@ -98,6 +115,14 @@ const tabs = createResource({
               field.fieldtype = 'Select'
               field.options = leadStatuses.value
               field.prefix = getLeadStatus(lead.doc.status).color
+            } else if (field.fieldname == 'linkedin_status') {
+              field.fieldtype = 'Select'
+              field.options = leadLinkedinStatuses.value
+              field.prefix = getLeadLinkedinStatus(lead.doc.linkedin_status).color
+            } else if (field.fieldname == 'email_status') {
+              field.fieldtype = 'Select'
+              field.options = leadEmailStatuses.value
+              field.prefix = getLeadEmailStatus(lead.doc.email_status).color
             }
 
             if (field.fieldtype === 'Table') {
@@ -156,6 +181,14 @@ async function createNewLead() {
         }
         if (!lead.doc.status) {
           error.value = __('Status is required')
+          return error.value
+        }
+        if (!lead.doc.linkedin_status) {
+          error.value = __('Linkedin Status is required')
+          return error.value
+        }
+        if (!lead.doc.email_status) {
+          error.value = __('Email Status is required')
           return error.value
         }
         isLeadCreating.value = true

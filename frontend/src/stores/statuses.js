@@ -7,6 +7,8 @@ import { reactive, h } from 'vue'
 
 export const statusesStore = defineStore('crm-statuses', () => {
   let leadStatusesByName = reactive({})
+  let leadLinkedinStatusesByName = reactive({})
+  let leadEmailStatusesByName = reactive({})
   let dealStatusesByName = reactive({})
   let communicationStatusesByName = reactive({})
 
@@ -21,6 +23,38 @@ export const statusesStore = defineStore('crm-statuses', () => {
       for (let status of statuses) {
         status.color = parseColor(status.color)
         leadStatusesByName[status.name] = status
+      }
+      return statuses
+    },
+  })
+
+  const leadLinkedinStatuses = createListResource({
+    doctype: 'CRM Lead LinkedIn Status',
+    fields: ['name', 'color', 'position'],
+    orderBy: 'position asc',
+    cache: 'lead-linkedin-statuses',
+    initialData: [],
+    auto: true,
+    transform(statuses) {
+      for (let status of statuses) {
+        status.color = parseColor(status.color)
+        leadLinkedinStatusesByName[status.name] = status
+      }
+      return statuses
+    },
+  })
+
+  const leadEmailStatuses = createListResource({
+    doctype: 'CRM Lead Email Status',
+    fields: ['name', 'color', 'position'],
+    orderBy: 'position asc',
+    cache: 'lead-email-statuses',
+    initialData: [],
+    auto: true,
+    transform(statuses) {
+      for (let status of statuses) {
+        status.color = parseColor(status.color)
+        leadEmailStatusesByName[status.name] = status
       }
       return statuses
     },
@@ -63,6 +97,20 @@ export const statusesStore = defineStore('crm-statuses', () => {
     return leadStatusesByName[name]
   }
 
+  function getLeadLinkedinStatus(name) {
+    if (!name) {
+      name = leadLinkedinStatuses.data[0].name
+    }
+    return leadLinkedinStatusesByName[name]
+  }
+
+  function getLeadEmailStatus(name) {
+    if (!name) {
+      name = leadEmailStatuses.data[0].name
+    }
+    return leadEmailStatusesByName[name]
+  }
+
   function getDealStatus(name) {
     if (!name) {
       name = dealStatuses.data[0].name
@@ -78,8 +126,18 @@ export const statusesStore = defineStore('crm-statuses', () => {
   }
 
   function statusOptions(doctype, statuses = [], triggerStatusChange = null) {
-    let statusesByName =
-      doctype == 'deal' ? dealStatusesByName : leadStatusesByName
+    let statusesByName
+    if (doctype === 'deal') {
+      statusesByName = dealStatusesByName
+    } else if (doctype === 'lead-linkedin') {
+      statusesByName = leadLinkedinStatusesByName
+    } else if (doctype === 'lead-email') {
+      statusesByName = leadEmailStatusesByName
+    } else if (doctype === 'lead') {
+      statusesByName = leadStatusesByName
+    } else {
+      statusesByName = leadStatusesByName
+    }
 
     if (statuses?.length) {
       statusesByName = statuses.reduce((acc, status) => {
@@ -105,9 +163,13 @@ export const statusesStore = defineStore('crm-statuses', () => {
 
   return {
     leadStatuses,
+    leadLinkedinStatuses,
+    leadEmailStatuses,
     dealStatuses,
     communicationStatuses,
     getLeadStatus,
+    getLeadLinkedinStatus,
+    getLeadEmailStatus,
     getDealStatus,
     getCommunicationStatus,
     statusOptions,

@@ -14,6 +14,8 @@ def before_install():
 
 def after_install(force=False):
 	add_default_lead_statuses()
+	add_default_linkedin_statuses()
+	add_default_email_statuses()
 	add_default_deal_statuses()
 	add_default_communication_statuses()
 	add_default_fields_layout(force)
@@ -70,6 +72,100 @@ def add_default_lead_statuses():
 
 		doc = frappe.new_doc("CRM Lead Status")
 		doc.lead_status = status
+		doc.color = statuses[status]["color"]
+		doc.position = statuses[status]["position"]
+		doc.insert()
+
+
+def add_default_linkedin_statuses():
+	statuses = {
+		"New": {
+			"color": "gray",
+			"position": 1,
+		},
+		"Ready for Connection Request": {
+			"color": "cyan",
+			"position": 2,
+		},
+		"Connection Request Sent": {
+			"color": "blue",
+			"position": 3,
+		},
+		"Connection Request Accepted": {
+			"color": "green",
+			"position": 4,
+		},
+		"Connection Request Not Accepted": {
+			"color": "amber",
+			"position": 4,
+		},
+		"Nurturing": {
+			"color": "purple",
+			"position": 6,
+		},
+		"Disqualified": {
+			"color": "red",
+			"position": 7,
+		},
+		"Converted": {
+			"color": "green",
+			"position": 8,
+		},
+	}
+
+	for status in statuses:
+		if frappe.db.exists("CRM Lead LinkedIn Status", status):
+			continue
+
+		doc = frappe.new_doc("CRM Lead LinkedIn Status")
+		doc.linkedin_status = status
+		doc.color = statuses[status]["color"]
+		doc.position = statuses[status]["position"]
+		doc.insert()
+
+
+def add_default_email_statuses():
+	statuses = {
+		"New": {
+			"color": "gray",
+			"position": 1,
+		},
+		"Ready for Email": {
+			"color": "cyan",
+			"position": 2,
+		},
+		"Email Sent": {
+			"color": "blue",
+			"position": 3,
+		},
+		"Replied": {
+			"color": "green",
+			"position": 4,
+		},
+		"Not Replied": {
+			"color": "amber",
+			"position": 4,
+		},
+		"Nurturing": {
+			"color": "purple",
+			"position": 6,
+		},
+		"Disqualified": {
+			"color": "red",
+			"position": 7,
+		},
+		"Converted": {
+			"color": "green",
+			"position": 8,
+		},
+	}
+
+	for status in statuses:
+		if frappe.db.exists("CRM Lead Email Status", status):
+			continue
+
+		doc = frappe.new_doc("CRM Lead Email Status")
+		doc.email_status = status
 		doc.color = statuses[status]["color"]
 		doc.position = statuses[status]["position"]
 		doc.insert()
@@ -150,7 +246,7 @@ def add_default_fields_layout(force=False):
 	quick_entry_layouts = {
 		"CRM Lead-Quick Entry": {
 			"doctype": "CRM Lead",
-			"layout": '[{"name":"first_tab","sections":[{"name":"person_section","columns":[{"name":"column_5jrk","fields":["first_name","sales_campaign"]},{"name":"column_5CPV","fields":["last_name","organization"]}],"editingLabel":false,"label":"Primary Information"},{"name":"organization_section","columns":[{"name":"column_GHfX","fields":["job_title"]},{"name":"column_hXjS","fields":["gender"]}],"editingLabel":false,"label":"Employee Information"},{"name":"lead_section","columns":[{"name":"column_EO1H","fields":["email"]},{"name":"column_RWBe","fields":["linkedin_url"]},{"label":"","name":"column_qLXX","fields":["mobile_no"]}],"editingLabel":false,"label":"Personal Information"},{"label":"Tracking Information","name":"section_hOQa","opened":true,"columns":[{"name":"column_VQhQ","fields":["source","status"]},{"label":"","name":"column_jPcX","fields":["lead_score","lead_owner"]}],"editingLabel":false}]}]',
+			"layout": '[{"name":"first_tab","sections":[{"name":"person_section","columns":[{"name":"column_5jrk","fields":["first_name","sales_campaign"]},{"name":"column_5CPV","fields":["last_name","organization"]}],"editingLabel":false,"label":"Primary Information"},{"name":"organization_section","columns":[{"name":"column_GHfX","fields":["job_title"]},{"name":"column_hXjS","fields":["gender"]}],"editingLabel":false,"label":"Employee Information"},{"name":"lead_section","columns":[{"name":"column_EO1H","fields":["email"]},{"name":"column_RWBe","fields":["linkedin_url"]},{"label":"","name":"column_qLXX","fields":["mobile_no"]}],"editingLabel":false,"label":"Personal Information"},{"label":"Tracking Information","name":"section_hOQa","opened":true,"columns":[{"name":"column_VQhQ","fields":["source","status","linkedin_status"]},{"label":"","name":"column_jPcX","fields":["lead_score","lead_owner","email_status"]}],"editingLabel":false}]}]',
 		},
 		"CRM Deal-Quick Entry": {
 			"doctype": "CRM Deal",
@@ -181,7 +277,7 @@ def add_default_fields_layout(force=False):
 	sidebar_fields_layouts = {
 		"CRM Lead-Side Panel": {
 			"doctype": "CRM Lead",
-			"layout": '[{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_XmW2","fields":["first_name","last_name","job_title","linkedin_url","email","mobile_no"]}],"editingLabel":false},{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_kl92","fields":["sales_campaign","organization","source","lead_score","next_follow_up_on"]}]}]',
+			"layout": '[{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_XmW2","fields":["first_name","last_name","job_title","mobile_no","next_follow_up_on"]}],"editingLabel":false},{"label":"Email","opened":true,"name":"section_Gmsp","columns":[{"name":"column_QpOw","fields":["email","email_status"]}],"editingLabel":false},{"label":"LinkedIn","opened":true,"name":"section_XFxG","columns":[{"name":"column_mzhO","fields":["linkedin_url","linkedin_status"]}],"editingLabel":false},{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_kl92","fields":["sales_campaign","organization","source","lead_score"]}]}]',
 		},
 		"CRM Deal-Side Panel": {
 			"doctype": "CRM Deal",
@@ -204,7 +300,7 @@ def add_default_fields_layout(force=False):
 	data_fields_layouts = {
 		"CRM Lead-Data Fields": {
 			"doctype": "CRM Lead",
-			"layout": '[{"name":"first_tab","sections":[{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_ZgLG","fields":["sales_campaign","source"]},{"name":"column_TbYq","fields":["organization","lead_owner"]},{"name":"column_OKSX","fields":["job_title","lead_score"]}]},{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_6c5g","fields":["gender","email"]},{"name":"column_1n7Q","fields":["first_name","mobile_no"]},{"name":"column_cT6C","fields":["last_name","linkedin_url"]}]}]}]',
+			"layout": '[{"name":"first_tab","sections":[{"label":"Communication","name":"section_QYHn","opened":true,"columns":[{"name":"column_RbBv","fields":["email_status","email","next_follow_up_on"]},{"label":"","name":"column_HgYo","fields":["linkedin_status","linkedin_url","lead_score"]}],"editingLabel":false},{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_ZgLG","fields":["sales_campaign","source"]},{"name":"column_TbYq","fields":["organization","lead_owner"]},{"name":"column_OKSX","fields":["job_title","lead_score"]}]},{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_6c5g","fields":["first_name","gender"]},{"name":"column_1n7Q","fields":["last_name","mobile_no"]}]}],"label":""}]',
 		},
 		"CRM Deal-Data Fields": {
 			"doctype": "CRM Deal",
