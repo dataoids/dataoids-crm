@@ -22,6 +22,8 @@
   "column_break_jybc",
   "linkedin_url",
   "linkedin_invited_by",
+  "linkedin_connected_on",
+  "last_linkedin_check",
   "email",
   "mobile_no",
   "organization_tab",
@@ -353,13 +355,23 @@
    "fieldtype": "Link",
    "label": "LinkedIn Invited By",
    "options": "User"
+  },
+  {
+   "fieldname": "linkedin_connected_on",
+   "fieldtype": "Date",
+   "label": "LinkedIn Connected On"
+  },
+  {
+   "fieldname": "last_linkedin_check",
+   "fieldtype": "Datetime",
+   "label": "Last LinkedIn Check"
   }
  ],
  "grid_page_length": 50,
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-18 17:00:43.072404",
+ "modified": "2025-08-18 17:22:43.269938",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",

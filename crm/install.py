@@ -91,7 +91,7 @@ def add_default_linkedin_statuses():
 			"color": "blue",
 			"position": 3,
 		},
-		"Connection Request Accepted": {
+		"Connected": {
 			"color": "green",
 			"position": 4,
 		},
@@ -277,7 +277,7 @@ def add_default_fields_layout(force=False):
 	sidebar_fields_layouts = {
 		"CRM Lead-Side Panel": {
 			"doctype": "CRM Lead",
-			"layout": '[{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_XmW2","fields":["first_name","last_name","job_title","mobile_no","next_follow_up_on"]}],"editingLabel":false},{"label":"Email","opened":true,"name":"section_Gmsp","columns":[{"name":"column_QpOw","fields":["email","email_status"]}],"editingLabel":false},{"label":"LinkedIn","opened":true,"name":"section_XFxG","columns":[{"name":"column_mzhO","fields":["linkedin_url","linkedin_status","linkedin_invited_by"]}],"editingLabel":false},{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_kl92","fields":["sales_campaign","organization","source","lead_score"]}]}]',
+			"layout": '[{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_XmW2","fields":["first_name","last_name","job_title","mobile_no","next_follow_up_on"]}],"editingLabel":false},{"label":"Email","opened":true,"name":"section_Gmsp","columns":[{"name":"column_QpOw","fields":["email","email_status"]}],"editingLabel":false},{"label":"LinkedIn","opened":true,"name":"section_XFxG","columns":[{"name":"column_mzhO","fields":["linkedin_url","linkedin_status","linkedin_invited_by","linkedin_connected_on","last_linkedin_check"]}],"editingLabel":false},{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_kl92","fields":["sales_campaign","organization","source","lead_score"]}]}]',
 		},
 		"CRM Deal-Side Panel": {
 			"doctype": "CRM Deal",
@@ -300,7 +300,7 @@ def add_default_fields_layout(force=False):
 	data_fields_layouts = {
 		"CRM Lead-Data Fields": {
 			"doctype": "CRM Lead",
-			"layout": '[{"name":"first_tab","sections":[{"label":"Communication","name":"section_QYHn","opened":true,"columns":[{"name":"column_RbBv","fields":["email_status","email","next_follow_up_on"]},{"label":"","name":"column_HgYo","fields":["linkedin_status","linkedin_url","linkedin_invited_by"]}],"editingLabel":false},{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_ZgLG","fields":["sales_campaign","source"]},{"name":"column_TbYq","fields":["organization","lead_owner"]},{"name":"column_OKSX","fields":["job_title","lead_score"]}]},{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_6c5g","fields":["first_name","gender"]},{"name":"column_1n7Q","fields":["last_name","mobile_no"]}]}],"label":""}]',
+			"layout": '[{"name":"first_tab","sections":[{"label":"Communication","name":"section_QYHn","opened":true,"columns":[{"name":"column_RbBv","fields":["email","email_status","next_follow_up_on"]},{"label":"","name":"column_HgYo","fields":["linkedin_url","linkedin_status","linkedin_invited_by","linkedin_connected_on"]}],"editingLabel":false},{"label":"Details","name":"details_section","opened":true,"columns":[{"name":"column_ZgLG","fields":["sales_campaign","source"]},{"name":"column_TbYq","fields":["organization","lead_owner"]},{"name":"column_OKSX","fields":["job_title","lead_score"]}]},{"label":"Person","name":"person_section","opened":true,"columns":[{"name":"column_6c5g","fields":["first_name","gender"]},{"name":"column_1n7Q","fields":["last_name","mobile_no"]}]}],"label":""}]',
 		},
 		"CRM Deal-Data Fields": {
 			"doctype": "CRM Deal",
