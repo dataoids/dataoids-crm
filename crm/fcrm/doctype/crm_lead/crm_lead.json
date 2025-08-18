@@ -21,6 +21,7 @@
   "last_name",
   "column_break_jybc",
   "linkedin_url",
+  "linkedin_invited_by",
   "email",
   "mobile_no",
   "organization_tab",
@@ -346,13 +347,19 @@
    "fieldname": "next_follow_up_on",
    "fieldtype": "Datetime",
    "label": "Next Follow-up On"
+  },
+  {
+   "fieldname": "linkedin_invited_by",
+   "fieldtype": "Link",
+   "label": "LinkedIn Invited By",
+   "options": "User"
   }
  ],
  "grid_page_length": 50,
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-13 19:56:37.373453",
+ "modified": "2025-08-18 17:00:43.072404",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",
