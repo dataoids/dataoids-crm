@@ -44,12 +44,14 @@
                   :label="__('Delete')"
                   theme="red"
                   size="sm"
+                  iconLeft="trash-2"
                   @click="deleteSalesCampaign()"
-                >
-                  <template #prefix>
-                    <FeatherIcon name="trash-2" class="h-4 w-4" />
-                  </template>
-                </Button>
+                />
+                <Button
+                  :tooltip="__('Edit LinkedIn Chat Sequence')"
+                  icon="link"
+                  @click="openLinkedInChatSequence"
+                />
               </div>
             </div>
           </div>
@@ -61,7 +63,7 @@
         <SidePanelLayout
           :sections="sections.data"
           doctype="CRM Sales Campaign"
-          :docname="props.salesCampaignId"
+          :docname="salesCampaign.doc.name"
           @reload="sections.reload"
         />
       </div>
@@ -229,6 +231,9 @@ async function deleteSalesCampaign() {
   showDeleteLinkedDocModal.value = true
 }
 
+function openLinkedInChatSequence() {
+  window.open(`/app/crm-sales-campaign/${salesCampaign.doc.name}`, '_blank')
+}
 
 const sections = createResource({
   url: 'crm.fcrm.doctype.crm_fields_layout.crm_fields_layout.get_sidepanel_sections',
