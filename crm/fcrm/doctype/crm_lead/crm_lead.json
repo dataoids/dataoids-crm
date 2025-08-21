@@ -17,6 +17,7 @@
   "job_title_category",
   "job_title",
   "lead_owner",
+  "current_sequence",
   "person_tab",
   "salutation",
   "first_name",
@@ -377,13 +378,19 @@
    "fieldname": "job_title_category",
    "fieldtype": "Data",
    "label": "Job Title Category"
+  },
+  {
+   "fieldname": "current_sequence",
+   "fieldtype": "Link",
+   "label": "Current Sequence",
+   "options": "CRM LinkedIn Chat Sequence"
   }
  ],
  "grid_page_length": 50,
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-18 19:39:22.198770",
+ "modified": "2025-08-21 14:54:15.981224",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",

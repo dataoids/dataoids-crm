@@ -15,7 +15,9 @@
   "column_break_nktr",
   "target_industry",
   "campaign_status",
-  "end_date"
+  "end_date",
+  "section_break_gabb",
+  "linkedin_chat_sequence"
  ],
  "fields": [
   {
@@ -68,11 +70,21 @@
   {
    "fieldname": "column_break_nktr",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_gabb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "linkedin_chat_sequence",
+   "fieldtype": "Table",
+   "label": "LinkedIn Chat Sequence",
+   "options": "CRM LinkedIn Chat Sequence"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-10 17:06:41.319887",
+ "modified": "2025-08-21 15:05:59.885718",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Sales Campaign",

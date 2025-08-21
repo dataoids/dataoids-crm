@@ -83,11 +83,11 @@ def add_default_linkedin_statuses():
 			"color": "gray",
 			"position": 1,
 		},
-		"Ready for Connection Request": {
+		"Ready for Connection": {
 			"color": "cyan",
 			"position": 2,
 		},
-		"Connection Request Sent": {
+		"Request Sent": {
 			"color": "blue",
 			"position": 3,
 		},
@@ -95,7 +95,7 @@ def add_default_linkedin_statuses():
 			"color": "green",
 			"position": 4,
 		},
-		"Connection Request Not Accepted": {
+		"Not Accepted": {
 			"color": "amber",
 			"position": 4,
 		},
