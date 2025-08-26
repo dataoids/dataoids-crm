@@ -17,7 +17,6 @@
   "campaign_status",
   "end_date",
   "section_break_gabb",
-  "linkedin_chat_sequence"
  ],
  "fields": [
   {
@@ -74,12 +73,6 @@
   {
    "fieldname": "section_break_gabb",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "linkedin_chat_sequence",
-   "fieldtype": "Table",
-   "label": "LinkedIn Chat Sequence",
-   "options": "CRM LinkedIn Chat Sequence"
   }
  ],
  "index_web_pages_for_search": 1,

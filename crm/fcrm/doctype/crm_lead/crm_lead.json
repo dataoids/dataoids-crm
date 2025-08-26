@@ -10,39 +10,42 @@
  "email_append_to": 1,
  "engine": "InnoDB",
  "field_order": [
-  "details",
-  "source",
-  "organization",
-  "lead_type",
-  "job_title_category",
-  "job_title",
-  "lead_owner",
-  "current_sequence",
   "person_tab",
-  "salutation",
+  "gender",
   "first_name",
   "last_name",
+  "address",
   "column_break_jybc",
+  "lead_type",
   "linkedin_url",
-  "linkedin_invited_by",
-  "linkedin_connected_on",
-  "last_linkedin_check",
   "email",
   "mobile_no",
+  "linkedin_tab",
+  "linkedin_invited_by",
+  "current_linkedin_sequence",
+  "linkedin_connection_request_on",
+  "next_follow_up_on",
+  "column_break_ebys",
+  "linkedin_status",
+  "last_linkedin_check",
+  "linkedin_connected_on",
+  "linkedin_replied_on",
+  "details",
+  "occupation",
+  "job_title",
+  "job_title_category",
+  "organization",
   "organization_tab",
   "section_break_uixv",
+  "lead_owner",
+  "source",
   "sales_campaign",
   "naming_series",
   "lead_name",
-  "middle_name",
-  "gender",
-  "phone",
   "column_break_dbsv",
   "status",
-  "linkedin_status",
   "email_status",
   "lead_score",
-  "next_follow_up_on",
   "image",
   "converted",
   "products_tab",
@@ -74,21 +77,10 @@
    "options": "CRM-LEAD-.YYYY.-"
   },
   {
-   "fieldname": "salutation",
-   "fieldtype": "Link",
-   "label": "Salutation",
-   "options": "Salutation"
-  },
-  {
    "fieldname": "first_name",
    "fieldtype": "Data",
    "label": "First Name",
    "reqd": 1
-  },
-  {
-   "fieldname": "middle_name",
-   "fieldtype": "Data",
-   "label": "Middle Name"
   },
   {
    "fieldname": "last_name",
@@ -142,12 +134,6 @@
    "fieldname": "mobile_no",
    "fieldtype": "Data",
    "label": "Mobile No",
-   "options": "Phone"
-  },
-  {
-   "fieldname": "phone",
-   "fieldtype": "Data",
-   "label": "Phone",
    "options": "Phone"
   },
   {
@@ -216,7 +202,7 @@
   {
    "fieldname": "details",
    "fieldtype": "Tab Break",
-   "label": "Details"
+   "label": "Job Details"
   },
   {
    "fieldname": "sla_tab",
@@ -355,13 +341,13 @@
   },
   {
    "fieldname": "linkedin_invited_by",
-   "fieldtype": "Link",
+   "fieldtype": "Select",
    "label": "LinkedIn Invited By",
-   "options": "User"
+   "options": "Ayush Khare\nNaveen Bhardwaj"
   },
   {
    "fieldname": "linkedin_connected_on",
-   "fieldtype": "Date",
+   "fieldtype": "Datetime",
    "label": "LinkedIn Connected On"
   },
   {
@@ -380,17 +366,48 @@
    "label": "Job Title Category"
   },
   {
-   "fieldname": "current_sequence",
+   "fieldname": "address",
    "fieldtype": "Link",
-   "label": "Current Sequence",
-   "options": "CRM LinkedIn Chat Sequence"
+   "label": "Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "linkedin_tab",
+   "fieldtype": "Tab Break",
+   "label": "LinkedIn"
+  },
+  {
+   "fieldname": "column_break_ebys",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "current_linkedin_sequence",
+   "fieldtype": "Int",
+   "label": "Current LinkedIn Sequence",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "linkedin_connection_request_on",
+   "fieldtype": "Datetime",
+   "label": "LinkedIn Connection Request On"
+  },
+  {
+   "fieldname": "occupation",
+   "fieldtype": "Data",
+   "label": "Occupation"
+  },
+  {
+   "fieldname": "linkedin_replied_on",
+   "fieldtype": "Datetime",
+   "label": "LinkedIn Replied On"
   }
  ],
  "grid_page_length": 50,
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-21 14:54:15.981224",
+ "modified": "2025-08-26 17:17:04.669948",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",

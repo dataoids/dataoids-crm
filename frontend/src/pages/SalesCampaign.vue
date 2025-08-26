@@ -47,11 +47,6 @@
                   iconLeft="trash-2"
                   @click="deleteSalesCampaign()"
                 />
-                <Button
-                  :tooltip="__('Edit LinkedIn Chat Sequence')"
-                  icon="link"
-                  @click="openLinkedInChatSequence"
-                />
               </div>
             </div>
           </div>
@@ -229,10 +224,6 @@ usePageMeta(() => {
 
 async function deleteSalesCampaign() {
   showDeleteLinkedDocModal.value = true
-}
-
-function openLinkedInChatSequence() {
-  window.open(`/app/crm-sales-campaign/${salesCampaign.doc.name}`, '_blank')
 }
 
 const sections = createResource({

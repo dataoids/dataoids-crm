@@ -7,6 +7,8 @@ from frappe.desk.form.assign_to import add as assign
 from frappe.model.document import Document
 from frappe.utils import has_gravatar, validate_email_address, add_to_date
 
+from crm.utils.linkedin import normalize_linkedin_url
+
 from crm.fcrm.doctype.crm_service_level_agreement.utils import get_sla
 from crm.fcrm.doctype.crm_status_change_log.crm_status_change_log import (
 	add_status_change_log,
@@ -16,13 +18,14 @@ from crm.fcrm.doctype.crm_status_change_log.crm_status_change_log import (
 class CRMLead(Document):
 	def before_validate(self):
 		self.set_sla()
-
+		self.set_linkedin_url()
+		self.update_next_follow_up()
+  
 	def validate(self):
 		self.set_full_name()
 		self.set_lead_name()
 		self.set_title()
-		if not self.is_new() and self.has_value_changed("status"):
-			self.update_next_follow_up()
+			
 		self.validate_email()
 		if not self.is_new() and self.has_value_changed("lead_owner") and self.lead_owner:
 			self.share_with_agent(self.lead_owner)
@@ -43,9 +46,7 @@ class CRMLead(Document):
 				filter(
 					None,
 					[
-						self.salutation,
 						self.first_name,
-						self.middle_name,
 						self.last_name,
 					],
 				)
@@ -69,6 +70,11 @@ class CRMLead(Document):
 		elif self.status == "Replied":
 			self.next_follow_up_on = add_to_date(hours=2)
 
+	def set_linkedin_url(self) -> str:
+		if not self.linkedin_url:
+			return
+		self.linkedin_url = normalize_linkedin_url(self.linkedin_url)
+	
 	def set_title(self):
 		self.title = self.organization or self.lead_name
 
@@ -138,7 +144,6 @@ class CRMLead(Document):
 			{
 				"first_name": self.first_name or self.lead_name,
 				"last_name": self.last_name,
-				"salutation": self.salutation,
 				"gender": self.gender,
 				"designation": self.job_title,
 				"company_name": self.organization,
@@ -166,7 +171,6 @@ class CRMLead(Document):
 			"CRM Lead",
 			self.name,
 			{
-				"salutation": contact.salutation,
 				"first_name": contact.first_name,
 				"last_name": contact.last_name,
 				"email": contact.email_id,
