@@ -343,7 +343,7 @@
    "fieldname": "linkedin_invited_by",
    "fieldtype": "Select",
    "label": "LinkedIn Invited By",
-   "options": "Ayush Khare\nNaveen Bhardwaj"
+   "options": "Ayush Khare\nNaveen Bhardwaj\nAnnie Varghese\nBhavya Arora\nOther"
   },
   {
    "fieldname": "linkedin_connected_on",
